@@ -4,6 +4,7 @@ import Hash from '@ioc:Adonis/Core/Hash'
 import { column, beforeSave, BaseModel, hasMany, HasMany } from '@ioc:Adonis/Lucid/Orm'
 import UserKey from './UserKey'
 import Snack from './Snack'
+import Request from './Request'
 
 export default class User extends BaseModel {
   @column({ isPrimary: true })
@@ -38,6 +39,9 @@ export default class User extends BaseModel {
 
   @hasMany(() => Snack)
   public snacks: HasMany<typeof Snack>
+
+  @hasMany(() => Request)
+  public requests: HasMany<typeof Request>
 
   @beforeSave()
   public static async hashPassword (user: User) {
