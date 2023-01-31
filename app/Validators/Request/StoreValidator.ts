@@ -8,7 +8,8 @@ export default class StoreValidator {
   public schema = schema.create({
     name: schema.string({ trim: true }),
     price: schema.number(),
-    status: schema.string(),
+    status: schema.enum(['waiting', 'complete', 'canceled']),
+    note: schema.string.optional({ trim: true }),
     requestItems: schema.array.optional().members(
       schema.object().members({
         name: schema.string({ trim: true}),

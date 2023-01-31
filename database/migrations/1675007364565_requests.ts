@@ -8,6 +8,7 @@ export default class extends BaseSchema {
       table.increments('id').primary()
       table.string('name').notNullable()
       table.integer('price').notNullable()
+      table.string('note')
       table.enum('status', ['waiting', 'complete', 'canceled']).notNullable()
       table
         .integer('user_id')
