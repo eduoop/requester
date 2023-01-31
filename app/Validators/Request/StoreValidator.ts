@@ -8,6 +8,7 @@ export default class StoreValidator {
   public schema = schema.create({
     name: schema.string({ trim: true }),
     price: schema.number(),
+    status: schema.string(),
     requestItems: schema.array.optional().members(
       schema.object().members({
         name: schema.string({ trim: true}),

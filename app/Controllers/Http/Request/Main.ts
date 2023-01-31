@@ -15,13 +15,13 @@ export default class RequestController {
 
   public async store({ request, auth, response }: HttpContextContract) {
     const user = auth.user!
-    const { name, price, requestItems } = await request.validate(StoreValidator)
+    const { name, price, requestItems, status } = await request.validate(StoreValidator)
 
     if (user.type === 'normal') {
       return response.unauthorized({ message: 'You are not allowed to make this' })
     }
 
-    const createdRequest = await user.related('requests').create({ name: name, price: price })
+    const createdRequest = await user.related('requests').create({ name: name, price: price, status: status })
 
     await Promise.all(
       requestItems!.map(async (request) => {
@@ -47,7 +47,7 @@ export default class RequestController {
   public async update({ params, auth, request, response }: HttpContextContract) {
     const user = auth.user!
 
-    const { name, price, requestItems } = await request.validate(StoreValidator)
+    const { name, price, requestItems, status } = await request.validate(StoreValidator)
 
     const requestToUpdate = await Request.query()
       .where('id', params.id)
@@ -58,7 +58,7 @@ export default class RequestController {
       return response.unauthorized({ message: 'you are not the creator of this request' })
     }
 
-    await requestToUpdate.merge({ name: name, price: price }).save()
+    await requestToUpdate.merge({ name: name, price: price, status: status }).save()
 
     if (requestItems) {
       await RequestItem.query().where('request_id', params.id).delete()

@@ -11,6 +11,9 @@ export default class Request extends BaseModel {
   public name: string
 
   @column()
+  public status: string
+
+  @column()
   public price: number
 
   @column()
