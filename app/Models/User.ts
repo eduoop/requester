@@ -28,6 +28,19 @@ export default class User extends BaseModel {
   @column()
   public rememberMeToken: string | null
 
+  @column()
+  public state: string;
+  
+  @column()
+  public city: string;
+
+  @column()
+  public neighborhood: string;
+
+  @column()
+  public address: string;
+
+
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 

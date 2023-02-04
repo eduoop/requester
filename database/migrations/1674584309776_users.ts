@@ -14,6 +14,11 @@ export default class extends BaseSchema {
       table.string('password', 180)
       table.string('remember_me_token')
 
+      table.string('state')
+      table.string('city')
+      table.string('neighborhood')
+      table.string('address')
+
       table.timestamp('created_at', { useTz: true }).notNullable()
       table.timestamp('updated_at', { useTz: true }).notNullable()
     })
