@@ -5,10 +5,13 @@ import RequestItem from 'App/Models/RequestItem'
 import { StoreValidator } from 'App/Validators/Request'
 
 export default class RequestController {
-  public async index({ auth }: HttpContextContract) {
+  public async index({ auth, request }: HttpContextContract) {
     const user = auth.user!
+    const { search } = request.qs()
 
-    const requests = user.related('requests').query().preload('requestItems')
+    const requests = user.related('requests').query().preload('requestItems').if(search, (query) => {
+      query.where('name', 'like', `%${search}%`)
+    })
 
     return requests
   }
@@ -77,5 +80,15 @@ export default class RequestController {
     }
   }
 
-  public async destroy({ }: HttpContextContract) { }
+  public async destroy({ auth, params, response }: HttpContextContract) {
+    const request = await Request.findByOrFail("id", params.id)
+
+    if (request.userId !== auth.user!.id) {
+      return response.unauthorized()
+    }
+
+    await request.delete()
+
+    return response.ok("Ok")
+  }
 }
