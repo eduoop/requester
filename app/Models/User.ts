@@ -30,9 +30,15 @@ export default class User extends BaseModel {
 
   @column()
   public state: string;
+
+  @column()
+  public stateId: number;
   
   @column()
   public city: string;
+
+  @column()
+  public cityId: number;
 
   @column()
   public neighborhood: string;

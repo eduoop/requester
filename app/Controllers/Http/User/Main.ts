@@ -12,18 +12,13 @@ export default class UserController {
     return user
   }
 
-  public async update({ params, request, response, auth }: HttpContextContract) {
+  public async update({ request, auth }: HttpContextContract) {
     const loggedUser = auth.user!
-    const user = await User.query().where({ id: params.id }).firstOrFail()
     const data = await request.validate(UpdateValidator)
 
-    if (loggedUser.id !== Number(params.id)) {
-      return response.unauthorized({ message: 'you are not the creator of this profile' })
-    }
+    await loggedUser.merge(data).save()
 
-    await user.merge(data)
-
-    return user
+    return loggedUser
   }
 
   public async destroy({}: HttpContextContract) { }

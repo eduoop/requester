@@ -15,7 +15,9 @@ export default class extends BaseSchema {
       table.string('remember_me_token')
 
       table.string('state')
+      table.integer('state_id')
       table.string('city')
+      table.integer('city_id')
       table.string('neighborhood')
       table.string('address')
 
